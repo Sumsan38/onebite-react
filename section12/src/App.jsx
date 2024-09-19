@@ -1,9 +1,11 @@
 import "./App.css"
-import {Routes, Route, Link, useNavigate} from "react-router-dom";
+import {Link, Route, Routes, useNavigate} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Diary from "./pages/Diary.jsx";
 import New from "./pages/New.jsx"
 import NotFound from "./pages/NotFound.jsx";
+import {getEmotionImage} from "./util/get-emotion-image.js";
+
 
 function App() {
     const nav = useNavigate();
@@ -14,7 +16,15 @@ function App() {
     return (
         <>
             <div>
-                <Link to={"/"}>Home</Link>
+                <img src={getEmotionImage(1)}/>
+                <img src={getEmotionImage(2)}/>
+                <img src={getEmotionImage(3)}/>
+                <img src={getEmotionImage(4)}/>
+                <img src={getEmotionImage(5)}/>
+            </div>
+
+            <div>
+            <Link to={"/"}>Home</Link>
                 <Link to={"/new"}>New</Link>
                 <Link to={"/diary"}>Diary</Link>
             </div>
