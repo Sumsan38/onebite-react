@@ -1,34 +1,26 @@
 import "./App.css"
-import {Link, Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Diary from "./pages/Diary.jsx";
 import New from "./pages/New.jsx"
 import NotFound from "./pages/NotFound.jsx";
-import {getEmotionImage} from "./util/get-emotion-image.js";
+import Button from "./components/Button.jsx";
+import Header from "./components/Header.jsx";
 
 
 function App() {
-    const nav = useNavigate();
-    const onClickButton = () => {
-        nav("/new");
-    };
-
     return (
         <>
-            <div>
-                <img src={getEmotionImage(1)}/>
-                <img src={getEmotionImage(2)}/>
-                <img src={getEmotionImage(3)}/>
-                <img src={getEmotionImage(4)}/>
-                <img src={getEmotionImage(5)}/>
-            </div>
-
-            <div>
-            <Link to={"/"}>Home</Link>
-                <Link to={"/new"}>New</Link>
-                <Link to={"/diary"}>Diary</Link>
-            </div>
-            <button onClick={onClickButton}>New 페이지로 이동</button>
+            <Header title={"Header"} leftChild={<Button text={"left"}/>} rightChild={<Button text={"right"}/>}/>
+            <Button text={"기본"} onClick={() => {
+                console.log("clicked");
+            }}/>
+            <Button text={"긍정"} type={"POSITIVE"} onClick={() => {
+                console.log("clicked");
+            }}/>
+            <Button text={"부정"} type={"NEGATIVE"} onClick={() => {
+                console.log("clicked");
+            }}/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/new" element={<New/>}/>
