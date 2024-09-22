@@ -10,15 +10,21 @@ import {createContext, useReducer, useRef} from "react";
 const mockData = [
     {
         id: 1,
-        createDate: new Date().getTime(),
+        createDate: new Date("2024-09-22").getTime(),
         emotionId: 1,
         content: "1번 일기 내용"
     },
     {
         id: 2,
-        createDate: new Date().getTime(),
+        createDate: new Date("2024-09-21").getTime(),
         emotionId: 2,
         content: "2번 일기 내용"
+    },
+    {
+        id: 3,
+        createDate: new Date("2024-08-02").getTime(),
+        emotionId: 3,
+        content: "3번 일기 내용"
     }
 ]
 
@@ -38,12 +44,12 @@ function reducer(state, action) {
     }
 }
 
-const DiaryStateContext = createContext();
-const DiaryDispatchContext = createContext();
+export const DiaryStateContext = createContext();
+export const DiaryDispatchContext = createContext();
 
 function App() {
     const [data, dispatch] = useReducer(reducer, mockData);
-    const idRef = useRef(3); // 생성될 id 값을 관리하는 hook
+    const idRef = useRef(4); // 생성될 id 값을 관리하는 hook
 
     // 새로운 일기 추가 (차후 이 메서드만 전달한다)
     const onCreate = (createDate, emotionId, context) => {
@@ -78,9 +84,8 @@ function App() {
 
 
     return (
-        <>
-            <DiaryStateContext.Provider value={data}>
-                <DiaryDispatchContext.Provider value={{onCreate, onUpdate, onDelete}}>
+        <DiaryStateContext.Provider value={data}>
+            <DiaryDispatchContext.Provider value={{onCreate, onUpdate, onDelete}}>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
                     <Route path="/new" element={<New/>}/>
@@ -88,9 +93,8 @@ function App() {
                     <Route path="/edit/:id" element={<Edit/>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
-                </DiaryDispatchContext.Provider>
-            </DiaryStateContext.Provider>
-        </>
+            </DiaryDispatchContext.Provider>
+        </DiaryStateContext.Provider>
     );
 }
 

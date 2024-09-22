@@ -1,5 +1,4 @@
 import './Header.css';
-import Button from './Button';
 
 const Header = ({ title, leftChild, rightChild}) => {
     return (
