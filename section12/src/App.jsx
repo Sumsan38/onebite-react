@@ -5,9 +5,7 @@ import Diary from "./pages/Diary.jsx";
 import New from "./pages/New.jsx"
 import Edit from "./pages/Edit.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import Button from "./components/Button.jsx";
-import Header from "./components/Header.jsx";
-import {useReducer, useRef, createContext} from "react";
+import {createContext, useReducer, useRef} from "react";
 
 const mockData = [
     {
@@ -81,20 +79,6 @@ function App() {
 
     return (
         <>
-            <button onClick={() => {
-                onCreate(new Date().getTime(), 1, "일기 추가 테스트입니다")
-            }}>일가 추가 테스트
-            </button>
-            <button onClick={() => {
-                onUpdate(1, new Date().getTime(), 3, "수정된 일기입니다.")
-            }}>일기 수정 테스트
-            </button>
-            <button onClick={() => {
-                onDelete(1);
-            }}>일기 삭제 테스트
-            </button>
-            <Header title={"Header"} leftChild={<Button text={"left"}/>} rightChild={<Button text={"right"}/>}/>
-
             <DiaryStateContext.Provider value={data}>
                 <DiaryDispatchContext.Provider value={{onCreate, onUpdate, onDelete}}>
                 <Routes>
