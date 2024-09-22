@@ -7,7 +7,7 @@ import Edit from "./pages/Edit.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Button from "./components/Button.jsx";
 import Header from "./components/Header.jsx";
-import {useReducer} from "react";
+import {useReducer, useRef, createContext} from "react";
 
 const mockData = [
     {
@@ -24,23 +24,88 @@ const mockData = [
     }
 ]
 
+
 function reducer(state, action) {
-    return state;
+    switch (action.type) {
+        case "CREATE":
+            return [action.data, ...state];
+        case "UPDATE":
+            return state.map((item) =>
+                String(item.id) === String(action.data.id) ? action.data : item
+            );
+        case "DELETE":
+            return state.filter((item) => String(item.id) !== String(action.id));
+        default:
+            return state;
+    }
 }
 
+const DiaryStateContext = createContext();
+const DiaryDispatchContext = createContext();
+
 function App() {
-    const [data, dispatch] = useReducer(reducer, [mockData]);
+    const [data, dispatch] = useReducer(reducer, mockData);
+    const idRef = useRef(3); // 생성될 id 값을 관리하는 hook
+
+    // 새로운 일기 추가 (차후 이 메서드만 전달한다)
+    const onCreate = (createDate, emotionId, context) => {
+        dispatch({
+            type: "CREATE",
+            data: {
+                id: idRef.current++,
+                createDate: createDate,
+                emotionId: emotionId,
+                context: context,
+            },
+        })
+    }
+
+    // 기존 일기 수정
+    const onUpdate = (id, createDate, emotionId, context) => {
+        dispatch({
+            type: "UPDATE",
+            data: {
+                id, createDate, emotionId, context
+            }
+        })
+    }
+
+    // 기존 일기 삭제
+    const onDelete = (id) => {
+        dispatch({
+            type: "DELETE",
+            id
+        })
+    }
+
 
     return (
         <>
+            <button onClick={() => {
+                onCreate(new Date().getTime(), 1, "일기 추가 테스트입니다")
+            }}>일가 추가 테스트
+            </button>
+            <button onClick={() => {
+                onUpdate(1, new Date().getTime(), 3, "수정된 일기입니다.")
+            }}>일기 수정 테스트
+            </button>
+            <button onClick={() => {
+                onDelete(1);
+            }}>일기 삭제 테스트
+            </button>
             <Header title={"Header"} leftChild={<Button text={"left"}/>} rightChild={<Button text={"right"}/>}/>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/new" element={<New/>}/>
-                <Route path="/diary/:id" element={<Diary/>}/>
-                <Route path="/edit/:id" element={<Edit/>}/>
-                <Route path="*" element={<NotFound/>}/>
-            </Routes>
+
+            <DiaryStateContext.Provider value={data}>
+                <DiaryDispatchContext.Provider value={{onCreate, onUpdate, onDelete}}>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/new" element={<New/>}/>
+                    <Route path="/diary/:id" element={<Diary/>}/>
+                    <Route path="/edit/:id" element={<Edit/>}/>
+                    <Route path="*" element={<NotFound/>}/>
+                </Routes>
+                </DiaryDispatchContext.Provider>
+            </DiaryStateContext.Provider>
         </>
     );
 }
