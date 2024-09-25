@@ -29,5 +29,5 @@ const DiaryItem = ({id, emotionId, createDate, content}) => {
         </div>
     );
 };
-
+0
 export default DiaryItem;
