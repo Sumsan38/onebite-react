@@ -11,6 +11,7 @@ const New = () => {
 
     const onSubmit = (input) => {
         onCreate(input.createDate.getTime(), input.emotionId, input.content);
+        nav('/', {replace: true}) // replace:true -> 뒤로 가기 방지 (새로 추가 한 뒤에 새로 추가한 페이지로 이동 금지)
     };
 
     return <div>

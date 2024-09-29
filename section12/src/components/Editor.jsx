@@ -2,6 +2,7 @@ import './Editor.css';
 import EmotionItem from "./EmotionItem.jsx";
 import Button from "./Button.jsx";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const emotionList = [
     {emotionId: 1, emotionName: "완전 좋음"},
@@ -33,6 +34,7 @@ const Editor = ({onSubmit}) => {
         emotionId: 3,
         content: "",
     });
+    const nav = useNavigate();
 
     const onChangeInput = (e) => {
         console.log(e.target.name);     // 어떤 요소에 입력이 들어온건지
@@ -93,7 +95,7 @@ const Editor = ({onSubmit}) => {
                 placeholder="오늘은 어땠나요?"/>
         </section>
         <section className="button_section">
-            <Button text={"취소하기"}/>
+            <Button onClick={()=>nav(-1)} text={"취소하기"}/>
             <Button onClick={onClickSubmitButton} text={"작성 완료"} type={"POSITIVE"}/>
         </section>
     </div>

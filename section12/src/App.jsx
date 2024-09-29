@@ -52,24 +52,24 @@ function App() {
     const idRef = useRef(4); // 생성될 id 값을 관리하는 hook
 
     // 새로운 일기 추가 (차후 이 메서드만 전달한다)
-    const onCreate = (createDate, emotionId, context) => {
+    const onCreate = (createDate, emotionId, content) => {
         dispatch({
             type: "CREATE",
             data: {
                 id: idRef.current++,
                 createDate: createDate,
                 emotionId: emotionId,
-                context: context,
+                content: content,
             },
         })
     }
 
     // 기존 일기 수정
-    const onUpdate = (id, createDate, emotionId, context) => {
+    const onUpdate = (id, createDate, emotionId, content) => {
         dispatch({
             type: "UPDATE",
             data: {
-                id, createDate, emotionId, context
+                id, createDate, emotionId, content
             }
         })
     }
