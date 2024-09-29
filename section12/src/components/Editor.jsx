@@ -1,7 +1,7 @@
 import './Editor.css';
 import EmotionItem from "./EmotionItem.jsx";
 import Button from "./Button.jsx";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 const emotionList = [
@@ -28,13 +28,22 @@ const getStringedDate = (targetDate) => {
     return `${year}-${month}-${day}`;
 }
 
-const Editor = ({onSubmit}) => {
+const Editor = ({ initData, onSubmit }) => {
     const [input, setInput] = useState({
         createDate: new Date(),
         emotionId: 3,
         content: "",
     });
     const nav = useNavigate();
+
+    useEffect(() => {
+        if(initData) {
+            setInput({
+                ...initData,
+                createDate: new Date(Number(initData.createDate)),
+            });
+        }
+    }, [initData]);
 
     const onChangeInput = (e) => {
         console.log(e.target.name);     // 어떤 요소에 입력이 들어온건지
@@ -71,17 +80,18 @@ const Editor = ({onSubmit}) => {
             <h4>오늘의 감정</h4>
             <div className="emotion_list_wrapper">
                 {
-                    emotionList.map((item) =>
-                        <EmotionItem
-                            onClick={() =>
-                                onChangeInput({
-                                    target: {
-                                        name: "emotionId",
-                                        value: item.emotionId
-                                    },
-                                })
-                            }
-                            key={item.emotionId} {...item} isSelected={item.emotionId === input.emotionId}/>
+                    emotionList.map((item) => {
+                            return <EmotionItem
+                                onClick={() =>
+                                    onChangeInput({
+                                        target: {
+                                            name: "emotionId",
+                                            value: item.emotionId
+                                        },
+                                    })
+                                }
+                                key={item.emotionId} {...item} isSelected={item.emotionId === input.emotionId}/>;
+                        }
                     )
                 }
             </div>
