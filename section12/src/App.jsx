@@ -10,7 +10,7 @@ import {createContext, useReducer, useRef} from "react";
 const mockData = [
     {
         id: 1,
-        createDate: new Date("2024-09-22").getTime(),
+        createDate: new Date("2024-10-01").getTime(),
         emotionId: 1,
         content: "1번 일기 내용"
     },
